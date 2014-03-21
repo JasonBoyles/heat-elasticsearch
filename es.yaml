@@ -40,7 +40,7 @@ resources:
     properties:
       count: { get_param: es_node_count }
       resource_def:
-        type: https://point_to_the_node_file/es_node.yaml
+        type: https://raw.githubusercontent.com/JasonBoyles/heat-elasticsearch/jgb-multinode/es_node.yaml
         properties:
           server_hostname:  { get_param: server_hostname }
           ssh_keypair_name: { get_param: ssh_keypair_name }
