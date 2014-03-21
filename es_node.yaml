@@ -21,6 +21,7 @@ parameters:
 
   ssh_private_key:
     description: private key to access the created servers
+    type: string
 
 
 
