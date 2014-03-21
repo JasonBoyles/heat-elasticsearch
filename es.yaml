@@ -46,8 +46,8 @@ resources:
         properties:
           server_hostname:  { get_param: server_hostname }
           ssh_keypair_name: { get_param: ssh_keypair_name }
-          es_network_id:    { get_resource: es_network }
           ssh_private_key:  { get_attr: [ssh_key, private_key] }
+          es_network_id:    { get_resource: es_network }
 
 
 outputs:
