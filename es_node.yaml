@@ -23,6 +23,14 @@ parameters:
     description: private key to access the created servers
     type: string
 
+  es_password:
+    description: password for HTTP basic auth
+    type: string
+
+  es_auth_user:
+    description: User name for HTTP basic authentication to Elasticsearch endpoint
+    type: string
+    default: es_user
 
 resources:
 
@@ -63,15 +71,26 @@ resources:
       Berksfile: |
         site :opscode
         cookbook 'java'
+        cookbook 'firewall'
         cookbook 'rax-elasticsearch',
           :git => 'https://github.com/JasonBoyles/cookbook-rax-elasticsearch.git'
+      data_bags:
+        elasticsearch:
+          id: users
+          _default:
+            users:
+              - username: { get_param: es_auth_user }
+                password: { get_param: es_password }
       node:
         elasticsearch:
           cluster:
             name: heated_cluster
         run_list: ["recipe[rax-elasticsearch]"]
 
+
 outputs:
 
   es_server_ip:
     value: { get_attr: [es_server, accessIPv4] }
+  es_private_ip:
+    value: { get_attr: [es_server, privateIPv4] }
