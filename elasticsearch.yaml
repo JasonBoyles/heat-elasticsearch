@@ -7,6 +7,28 @@ description: |
 
 parameters:
 
+  flavor:
+    description: Rackspace Cloud Server flavor
+    type: string
+    default: 2 GB Performance
+    constraints:
+    - allowed_values:
+      - 2 GB Performance
+      - 4 GB Performance
+      - 8 GB Performance
+      - 15 GB Performance
+      - 30 GB Performance
+      - 512MB Standard Instance
+      - 1GB Standard Instance
+      - 2GB Standard Instance
+      - 4GB Standard Instance
+      - 8GB Standard Instance
+      - 15GB Standard Instance
+      - 30GB Standard Instance
+      description: |
+        Must be a valid Rackspace Cloud Server flavor for the region you have
+        selected to deploy into.
+
   load_balancer_hostname:
     description: Hostname for load balancer
     type: string
@@ -76,8 +98,9 @@ resources:
     properties:
       count: { get_param: es_node_count }
       resource_def:
-        type: http://drop.duncancreek.net/es_node.yaml
+        type: http://drop.duncancreek.net/elasticsearch_node.yaml
         properties:
+          server_flavor:    { get_param: flavor }
           server_hostname:  { get_param: server_hostname }
           ssh_keypair_name: { get_param: ssh_keypair_name }
           ssh_private_key:  { get_attr: [ssh_key, private_key] }
@@ -89,7 +112,11 @@ resources:
 outputs:
   private_key:
     value: { get_attr: [ssh_key, private_key] }
+  es_auth_user:
+    value: { get_param: es_auth_user }
   es_password:
     value: { get_attr: [es_password, value] }
   load_balancer_ip:
     value: { get_attr: [load_balancer, PublicIp] }
+  es_server_ips:
+    value: { get_attr: [es_nodes, es_server_ip] }
