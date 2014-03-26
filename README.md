@@ -29,7 +29,7 @@ Here is an example of how to deploy this template using the
 ```
 heat --os-username <OS-USERNAME> --os-password <OS-PASSWORD> --os-tenant-id \
   <TENANT-ID> --os-auth-url https://identity.api.rackspacecloud.com/v2.0/ \
-  stack-create memcached-Stack -f elasticsearch.yaml \
+  stack-create memcached-stack -f elasticsearch.yaml \
   -P es_node_count=4
 ```
 
@@ -51,13 +51,13 @@ Parameters
 Parameters can be replaced with your own values when standing up a stack. Use
 the `-P` flag to specify a custom parameter.
 
-* `load_balancer_hostname`: Sets the hostname of the server. (Default: memcache)
-* `server_hostname`: Operating system to install (Default: Ubuntu 12.04 LTS (Precise
-  Pangolin))
-* `flavor`: Cloud server size to use. (Default: 4 GB Performance)
+* `load_balancer_hostname`: Sets the name of the load balancer. (Default: memcache)
+* `server_hostname`: Configures the hostname for the nodes (Default: es)
+* `flavor`: Cloud server flavor to use. (Default: 2 GB Performance)
 * `ssh_keypair_name`: Name of the SSH key pair to register with nova (Default:
-  none)
-* `es_auth_user`: Percentage of server memory to allow memcached to use (Default: 60)
+  elasticsearch)
+* `es_auth_user`: userid for HTTP basic authentication to load balancer and the
+individual elasticsearch instances.
 
 Outputs
 =======
